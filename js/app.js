@@ -9,6 +9,22 @@ function adicionar() {
     let input = document.getElementById('nome-amigo');
     let nomes = input.value.trim();
 
+     // Regex para permitir apenas letras, espaços e acentos
+     const regexValido = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
+
+     if (nomes === "" || !regexValido.test(nomes)) {
+        alert("Por favor, insira apenas letras e espaços!")
+        input.value = "";
+        return;
+     }
+
+     const nomeDuplicado = listaDeNomes.some(amigo => amigo.toLowerCase() === nomes.toLowerCase());
+     if (nomeDuplicado) {
+        alert("Nome já adicionado!");
+        input.value = "";
+        return;
+     }
+
     if (nomes !== "") {
         listaDeNomes.push(nomes);
         atualizarlista();
@@ -61,8 +77,8 @@ function embaralhar(lista) {
 }
 
 function sortear() {
-    if (listaDeNomes.length <= 2) {
-        alert("Adicione o nome de três ou mais amigos antes de continuar.");
+    if (listaDeNomes.length <= 3) {
+        alert("Adicione o nome de quatro ou mais amigos antes de continuar.");
         return;
     }
     embaralhar(listaDeNomes);
