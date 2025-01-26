@@ -11,10 +11,33 @@ function adicionar() {
 
     if (nomes !== "") {
         listaDeNomes.push(nomes);
-        let amigosIncluidos = listaDeNomes.join(", ");
-        document.getElementById('lista-amigos').textContent = amigosIncluidos;
+        atualizarlista();
         input.value = "";
     }
+}
+
+function atualizarlista() {
+    const listaContainer = document.getElementById('lista-amigos');
+
+    listaContainer.innerHTML = "";
+
+    listaDeNomes.forEach((nomes, index) => {
+        const item = document.createElement('span');
+        item.textContent = nomes;
+        item.style.cursor = "pointer";
+
+        // Adiciona o evento de clique para remover o nome
+        item.addEventListener('click', () => {
+            listaDeNomes.splice(index, 1);
+            atualizarlista();
+        });
+        listaContainer.appendChild(item);
+
+        //Adiciona a vírgula entre nomes como elemento a parte
+        if (index < listaDeNomes.length - 1) {
+            listaContainer.appendChild(document.createTextNode(", "));
+        }
+    });
 }
 
 document.getElementById('nome-amigo').addEventListener('keydown', function (event) {
